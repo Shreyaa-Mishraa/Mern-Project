@@ -42,7 +42,7 @@ const Members = () => {
     <>
       <section className="members">
         <div className="container">
-          <div className="heading_section">
+          <div className="header_section">
             <h2 className="heading">MEMBERS</h2>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
