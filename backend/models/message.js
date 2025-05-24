@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 import validator from "validator";
+
 const messageSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
         minLength: [3, "Name must contain atleast 3 characters!"],
         maxLength: [30, "Name must contain atmost 30 characters!"]
-        
     },
 
     email:{
@@ -28,4 +28,4 @@ const messageSchema = new mongoose.Schema({
     },
 });
 
-export const Message = mongoose.model("Message", volunteerSchema);
+export const Message = mongoose.model("Message", messageSchema);
