@@ -1,51 +1,52 @@
 import axios from "axios";
-import crypto from "crypto";
 import { Volunteer } from "../models/volunteer.js";
 
-export const checkout = async(req,res)=>{
+export const checkout = async (req, res) => {
   try {
-    const {amount} = req.body;
-    const invoice = await createInvoice(amount);
+    const { amount, ...volunteerData } = req.body;
+
+    const invoice = await createPlisioInvoice(amount);
+
     await Volunteer.create({
-      ...req.body,orderId : invoice.result.order_id,paymentStatus : invoice.result.status,
+      ...volunteerData,
+      orderId: invoice.data.txn_id,
+      paymentStatus: invoice.data.status,
     });
-    res.send(invoive);
-    console.log(amount);
+
+    res.status(200).json(invoice);
   } catch (error) {
-    console.error(error);
+    console.error("Checkout Error:", error?.response?.data || error.message);
     res.status(500).json({
-      success : false,
+      success: false,
       message: "Internal Server Error",
     });
   }
-}
+};
 
-//Base URL
-const cryptomus = axios.create({ baseURL: "https://api.cryptomus.com/v1" });
+const createPlisioInvoice = async (amount) => {
+  const API_KEY = process.env.PAYMENT_API_KEY;
 
-const createInvoice = async(amount)=>{
-  try {
-        const data={
-          amount : amount,
-          currency : "USD",
-          order_id: crypto.randomBytes(12).toString("hex"),
-          url_return : "https://mern-project-nine-neon.vercel.app/donate",
-          url_success : "https://mern-project-nine-neon.vercel.app",
-          lifetime : 300,
-          
-        };
+  const data = {
+    amount: amount.toString(),
+    currency: "USDT", // or BTC/ETH/etc. based on what you enabled
+    order_name: "Donation Invoice",
+    order_number: "donate_" + Date.now(),
+    source: "api",
+    callback_url: "https://mern-project-nine-neon.vercel.app/api/payment/status",
+    success_url: "https://mern-project-nine-neon.vercel.app/donate/success",
+    cancel_url: "https://mern-project-nine-neon.vercel.app/donate/failed",
+  };
 
-        const sign = crypto.createHash("md5").update(Buffer.from(JSON.stringify(data)).toString("base64") + process.env.PAYMENT_API_KEY).digest("hex");
-        const headers = {
-          merchant : process.env.MERCHANT_ID,
-          sign,
-        };
+  const response = await axios.post(
+    `https://plisio.net/api/v1/invoices/new`,
+    new URLSearchParams({
+      ...data,
+      api_key: API_KEY,
+    }),
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }
+  );
 
-        const response = await cryptomus.post("/payment",data,{headers});
-
-        return response.data
-  } catch (error) {
-    console.error("Eroor Occured:",error);
-    throw error;
-  }
-}
+  return response.data;
+};

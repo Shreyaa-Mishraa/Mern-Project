@@ -28,7 +28,7 @@ const Donate = () => {
           />
         </div>
         <input
-          type="email"
+          type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Your Name"
