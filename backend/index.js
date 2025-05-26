@@ -7,26 +7,27 @@ import checkoutRouter from "./router/checkoutRouter.js";
 
 const app = express();
 
+
 dotenv.config({ path: "./config.env" });
 
 console.log("Environment Variables:");
 console.log("- FRONTEND_URL:", process.env.FRONTEND_URL);
 console.log("- PAYMENT_API_KEY exists:", !!process.env.PAYMENT_API_KEY);
 
+
 const allowedOrigins = [
-  process.env.FRONTEND_URL,  // Your Vercel frontend URL
-  "http://localhost:5173",   // Vite dev server
-  "http://localhost:3000"    // React dev server
+  process.env.FRONTEND_URL?.replace(/\/$/, ""), 
+  "http://localhost:5173",
+  "http://localhost:3000"
 ];
 
-
 app.use(
- cors({
-    origin: ["http://localhost:5173", "https://mern-project-nine-neon.vercel.app/"],
+  cors({
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  })
 );
 
 app.use(express.json());
