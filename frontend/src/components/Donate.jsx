@@ -10,6 +10,30 @@ const Donate = () => {
 
   const handleCheckout = async (e) => {
     e.preventDefault();
+    try {
+      setDisableBtn(true);
+      const res = await axios.post(
+        "http://localhost:4000/api/v1/checkout",
+        
+
+        {
+          name,
+          email,
+          message,
+          amount,
+        },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log("Backend response:", JSON.stringify(res.data, null, 2));
+      window.location.href = res.data.paymentUrl;
+    } catch (error) {
+      setDisableBtn(false);
+      console.error("Error:", error);
+      alert(error.response?.data?.message || "Failed to process payment. Please try again.");
+    }
   };
 
   return (
@@ -34,7 +58,7 @@ const Donate = () => {
           placeholder="Your Name"
         />
         <input
-          type="text"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email Address"
