@@ -20,7 +20,7 @@ const Contact = () => {
     try {
       setDisableBtn(true); // Disable button during the request
       const { data } = await axios.post(
-        "https://mern-project-nine-neon.vercel.app/api/v1/message/send", 
+        "http://localhost:4000/api/v1/message/send", 
         { name, email, phone, message },
         {
           withCredentials: true,
