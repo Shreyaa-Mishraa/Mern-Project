@@ -58,7 +58,7 @@ const Donate = () => {
           placeholder="Your Name"
         />
         <input
-          type="email"
+          type=""
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email Address"
