@@ -18,9 +18,9 @@ const Contact = () => {
     }
 
     try {
-      setDisableBtn(true); // Disable button during the request
+      setDisableBtn(true); 
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/message/send", 
+        "https://mern-project-u8ij.onrender.com/api/v1/message/send", 
         { name, email, phone, message },
         {
           withCredentials: true,
