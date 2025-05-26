@@ -8,9 +8,9 @@ const Hero = () => {
         <h1>Volunteers</h1>
         <h3>Needed</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus
-          tenetur laborum incidunt dolore nisi quaerat dicta soluta? Beatae
-          aliquid excepturi animi vel, provident nisi dolorem?
+          Your time and passion can change lives. Join hands with us to create
+          a better tomorrow — whether it's through teaching, organizing drives,
+          or simply spreading the word. Every effort counts.
         </p>
         <Link to={"/donate"} className="btn">
           Donate Now

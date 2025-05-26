@@ -7,44 +7,41 @@ const Qualities = () => {
       image: "/community.jpg",
       title: "COMMUNITY DEVELOPMENT",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis culpa odio numquam ill laudantium nobis non illum cupiditate vero possimus quod quia nam, unde, labore suscipit obcaecati minus voluptates, autem velit.Facere numquam cum modi, molestiae eius libero mollitia aut!",
+        "We empower local communities through educational programs, skill-building workshops, and access to essential resources, fostering long-term growth and self-sufficiency.",
     },
     {
       id: 2,
       image: "/transparency.jpg",
       title: "TRANSPARENCY",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis culpa odio numquam ill laudantium nobis non illum cupiditate vero possimus quod quia nam, unde, labore suscipit obcaecati minus voluptates, autem velit.Facere numquam cum modi, molestiae eius libero mollitia aut!",
+        "We maintain complete transparency in our operations and finances so that every donor and volunteer knows exactly where their contributions go and how they're making an impact.",
     },
     {
       id: 3,
       image: "/impact.jpg",
       title: "IMPACT MEASUREMENT",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis culpa odio numquam ill laudantium nobis non illum cupiditate vero possimus quod quia nam, unde, labore suscipit obcaecati minus voluptates, autem velit.Facere numquam cum modi, molestiae eius libero mollitia aut!",
+        "Our work is guided by measurable outcomes. We track and report our progress, ensuring accountability and maximizing the positive change we bring to people's lives.",
     },
   ];
+
   return (
-    <>
-      <div className="qualities">
-        <h2>OUR QUALITIES</h2>
-        <div className="container">
-          {qualities.map((elememt) => {
-            return (
-              <div className="card" key={elememt.id}>
-                <div className="img-wrapper">
-                  <img src={elememt.image} alt={elememt.title} />
-                </div>
-                <div className="content">
-                  <p className="title">{elememt.title}</p>
-                  <p className="description">{elememt.description}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+    <div className="qualities">
+      <h2>OUR QUALITIES</h2>
+      <div className="container">
+        {qualities.map((element) => (
+          <div className="card" key={element.id}>
+            <div className="img-wrapper">
+              <img src={element.image} alt={element.title} />
+            </div>
+            <div className="content">
+              <p className="title">{element.title}</p>
+              <p className="description">{element.description}</p>
+            </div>
+          </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 
