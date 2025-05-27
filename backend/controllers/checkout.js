@@ -7,23 +7,20 @@ export const checkout = async (req, res) => {
 
         const { amount, ...volunteerData } = req.body;
 
-        // Validate amount
-        if (!amount || isNaN(amount) || amount < 3) {
+        if (!amount || isNaN(amount) || amount < 1) {
             return res.status(400).json({
                 success: false,
-                message: "Minimum donation amount is 3 USDT"
+                message: "Minimum donation amount is 1 USDT"
             });
         }
 
         console.log("Creating invoice for amount:", amount);
         console.log("API Key exists:", !!process.env.PAYMENT_API_KEY);
 
-        // Create invoice
         const invoice = await createPlisioInvoice(amount);
 
         console.log("Invoice response:", invoice);
 
-        // Check invoice response
         if (!invoice || invoice.status !== 'success' || !invoice.data) {
             return res.status(400).json({
                 success: false,
@@ -32,7 +29,6 @@ export const checkout = async (req, res) => {
             });
         }
 
-        // Save volunteer data
         try {
             console.log("Saving volunteer data...");
             await Volunteer.create({
@@ -87,10 +83,8 @@ const createPlisioInvoice = async (amount) => {
         throw new Error("Payment API key is not configured");
     }
 
-    // Round amount to 6 decimals (Plisio uses high precision)
     const roundedAmount = parseFloat(amount).toFixed(6);
 
-    // Plisio requires minimum 2.9994 USDT, so we ensure at least 3
     if (parseFloat(roundedAmount) < 3) {
         throw new Error("Minimum donation must be at least 3 USDT");
     }
@@ -119,7 +113,7 @@ const createPlisioInvoice = async (amount) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                timeout: 15000
+                timeout: 2000
             }
         );
 
