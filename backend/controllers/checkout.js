@@ -7,11 +7,10 @@ export const checkout = async (req, res) => {
 
         const { amount, ...volunteerData } = req.body;
 
-  
-        if (!amount || isNaN(amount) || amount < 1) {
+        if (!amount || isNaN(amount) || amount < 3) {
             return res.status(400).json({
                 success: false,
-                message: "Minimum donation amount is 1 USDT"
+                message: "Minimum donation amount is 3 USDT"
             });
         }
 
@@ -48,6 +47,7 @@ export const checkout = async (req, res) => {
             });
         }
 
+        // Respond with success
         res.status(200).json({
             success: true,
             message: "Invoice created successfully",
@@ -113,7 +113,7 @@ const createPlisioInvoice = async (amount) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                timeout: 5000 
+                timeout: 15000
             }
         );
 
