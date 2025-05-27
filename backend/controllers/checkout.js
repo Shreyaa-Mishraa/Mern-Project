@@ -7,6 +7,7 @@ export const checkout = async (req, res) => {
 
         const { amount, ...volunteerData } = req.body;
 
+  
         if (!amount || isNaN(amount) || amount < 1) {
             return res.status(400).json({
                 success: false,
@@ -47,7 +48,6 @@ export const checkout = async (req, res) => {
             });
         }
 
-        // Respond with success
         res.status(200).json({
             success: true,
             message: "Invoice created successfully",
@@ -113,7 +113,7 @@ const createPlisioInvoice = async (amount) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                timeout: 2000
+                timeout: 5000 
             }
         );
 
